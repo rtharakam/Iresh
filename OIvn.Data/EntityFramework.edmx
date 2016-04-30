@@ -1,0 +1,643 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MainDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="Location_Id" />
+          </Key>
+          <Property Name="Location_Id" Type="int" Nullable="false" />
+          <Property Name="Location_Code" Type="nvarchar" MaxLength="20" />
+          <Property Name="Location_Description" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MainDatabase.dbo.LocationChange' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="LocationChange">
+          <Key>
+            <PropertyRef Name="LocChng_Id" />
+          </Key>
+          <Property Name="LocChng_ProductId" Type="int" />
+          <Property Name="LocChng_LocationId" Type="int" />
+          <Property Name="LocChng_ChangedDate" Type="datetime" />
+          <Property Name="LocChng_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Manufature">
+          <Key>
+            <PropertyRef Name="Manufacture_Id" />
+          </Key>
+          <Property Name="Manufacture_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Manufacture_Name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Model">
+          <Key>
+            <PropertyRef Name="Model_Id" />
+          </Key>
+          <Property Name="Model_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Model_SKU" Type="nvarchar" MaxLength="20" />
+          <Property Name="Model_Type" Type="int" />
+          <Property Name="Model_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Model_SubType" Type="int" />
+          <Property Name="Model_Manufaturer" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MainDatabase.dbo.Note' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Note">
+          <Key>
+            <PropertyRef Name="Note_Id" />
+          </Key>
+          <Property Name="Note_ProductId" Type="int" />
+          <Property Name="Note_Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="Note_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Product_Id" />
+          </Key>
+          <Property Name="Product_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductDate_Created" Type="datetime" />
+          <Property Name="Product_Supplier" Type="int" />
+          <Property Name="Product_WarrantyPeriod" Type="int" />
+          <Property Name="Product_ModelId" Type="int" />
+          <Property Name="Product_CurrentLoc" Type="varchar" MaxLength="20" />
+          <Property Name="OS" Type="nchar" MaxLength="10" />
+          <Property Name="OSType" Type="nchar" MaxLength="10" />
+          <Property Name="OfficeVersion" Type="nchar" MaxLength="10" />
+          <Property Name="BattaryState" Type="nchar" MaxLength="10" />
+          <Property Name="IsLicense" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="ProductSubType">
+          <Key>
+            <PropertyRef Name="ProductSubType_Id" />
+          </Key>
+          <Property Name="ProductSubType_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductSubType_Name" Type="varchar" MaxLength="20" />
+          <Property Name="ProductSubType_MainType" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductType">
+          <Key>
+            <PropertyRef Name="ProductType_Id" />
+          </Key>
+          <Property Name="ProductType_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductType_Name" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="Supplier_Id" />
+          </Key>
+          <Property Name="Supplier_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Suppliers_Name" Type="varchar" MaxLength="50" />
+          <Property Name="Suppliers_JoinedDate" Type="datetime" />
+          <Property Name="Suppliers_IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_LocationChange_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="LocationChange" Type="Self.LocationChange" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Location_Id" />
+            </Principal>
+            <Dependent Role="LocationChange">
+              <PropertyRef Name="LocChng_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationChange_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="LocationChange" Type="Self.LocationChange" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Product_Id" />
+            </Principal>
+            <Dependent Role="LocationChange">
+              <PropertyRef Name="LocChng_ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Model_Manufature">
+          <End Role="Manufature" Type="Self.Manufature" Multiplicity="0..1" />
+          <End Role="Model" Type="Self.Model" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufature">
+              <PropertyRef Name="Manufacture_Id" />
+            </Principal>
+            <Dependent Role="Model">
+              <PropertyRef Name="Model_Manufaturer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Model_ProductType">
+          <End Role="ProductType" Type="Self.ProductType" Multiplicity="0..1" />
+          <End Role="Model" Type="Self.Model" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductType">
+              <PropertyRef Name="ProductType_Id" />
+            </Principal>
+            <Dependent Role="Model">
+              <PropertyRef Name="Model_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Note_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Note" Type="Self.Note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Product_Id" />
+            </Principal>
+            <Dependent Role="Note">
+              <PropertyRef Name="Note_ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Model">
+          <End Role="Model" Type="Self.Model" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Model">
+              <PropertyRef Name="Model_Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Product_ModelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Supplier">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="Supplier_Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Product_Supplier" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductSubType_ProductType">
+          <End Role="ProductType" Type="Self.ProductType" Multiplicity="1" />
+          <End Role="ProductSubType" Type="Self.ProductSubType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductType">
+              <PropertyRef Name="ProductType_Id" />
+            </Principal>
+            <Dependent Role="ProductSubType">
+              <PropertyRef Name="ProductSubType_MainType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MainDatabaseModelStoreContainer">
+          <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Manufature" EntityType="Self.Manufature" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Model" EntityType="Self.Model" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductSubType" EntityType="Self.ProductSubType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductType" EntityType="Self.ProductType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LocationChange" EntityType="Self.LocationChange" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [LocationChange].[LocChng_ProductId] AS [LocChng_ProductId], 
+    [LocationChange].[LocChng_LocationId] AS [LocChng_LocationId], 
+    [LocationChange].[LocChng_ChangedDate] AS [LocChng_ChangedDate], 
+    [LocationChange].[LocChng_Id] AS [LocChng_Id]
+    FROM [dbo].[LocationChange] AS [LocationChange]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Note" EntityType="Self.Note" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Note].[Note_ProductId] AS [Note_ProductId], 
+    [Note].[Note_Description] AS [Note_Description], 
+    [Note].[Note_Id] AS [Note_Id]
+    FROM [dbo].[Note] AS [Note]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_LocationChange_Location" Association="Self.FK_LocationChange_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="LocationChange" EntitySet="LocationChange" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationChange_Product" Association="Self.FK_LocationChange_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="LocationChange" EntitySet="LocationChange" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Model_Manufature" Association="Self.FK_Model_Manufature">
+            <End Role="Manufature" EntitySet="Manufature" />
+            <End Role="Model" EntitySet="Model" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Model_ProductType" Association="Self.FK_Model_ProductType">
+            <End Role="ProductType" EntitySet="ProductType" />
+            <End Role="Model" EntitySet="Model" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Note_Product" Association="Self.FK_Note_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Note" EntitySet="Note" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Model" Association="Self.FK_Product_Model">
+            <End Role="Model" EntitySet="Model" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Supplier" Association="Self.FK_Product_Supplier">
+            <End Role="Supplier" EntitySet="Supplier" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductSubType_ProductType" Association="Self.FK_ProductSubType_ProductType">
+            <End Role="ProductType" EntitySet="ProductType" />
+            <End Role="ProductSubType" EntitySet="ProductSubType" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MainDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Model">
+          <Key>
+            <PropertyRef Name="Model_Id" />
+          </Key>
+          <Property Name="Model_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Model_SKU" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Model_Type" Type="Int32" />
+          <Property Name="Model_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Model_SubType" Type="Int32" />
+          <NavigationProperty Name="ProductType" Relationship="Self.FK_Model_ProductType" FromRole="Model" ToRole="ProductType" />
+          <NavigationProperty Name="Products" Relationship="Self.FK_Product_Model" FromRole="Model" ToRole="Product" />
+          <Property Name="Model_Manufaturer" Type="Int32" />
+          <NavigationProperty Name="Manufature" Relationship="MainDatabaseModel.FK_Model_Manufature" FromRole="Model" ToRole="Manufature" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Product_Id" />
+          </Key>
+          <Property Name="Product_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductDate_Created" Type="DateTime" Precision="3" />
+          <Property Name="Product_Supplier" Type="Int32" />
+          <Property Name="Product_WarrantyPeriod" Type="Int32" />
+          <Property Name="Product_ModelId" Type="Int32" />
+          <Property Name="Product_CurrentLoc" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="OS" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="OSType" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="OfficeVersion" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="BattaryState" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="IsLicense" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Model" Relationship="Self.FK_Product_Model" FromRole="Product" ToRole="Model" />
+          <NavigationProperty Name="Supplier" Relationship="Self.FK_Product_Supplier" FromRole="Product" ToRole="Supplier" />
+          <NavigationProperty Name="Notes" Relationship="MainDatabaseModel.FK_Note_Product" FromRole="Product" ToRole="Note" />
+          <NavigationProperty Name="LocationChanges" Relationship="MainDatabaseModel.FK_LocationChange_Product" FromRole="Product" ToRole="LocationChange" />
+        </EntityType>
+        <EntityType Name="ProductSubType">
+          <Key>
+            <PropertyRef Name="ProductSubType_Id" />
+          </Key>
+          <Property Name="ProductSubType_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductSubType_Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ProductSubType_MainType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ProductType" Relationship="Self.FK_ProductSubType_ProductType" FromRole="ProductSubType" ToRole="ProductType" />
+        </EntityType>
+        <EntityType Name="ProductType">
+          <Key>
+            <PropertyRef Name="ProductType_Id" />
+          </Key>
+          <Property Name="ProductType_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductType_Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Models" Relationship="Self.FK_Model_ProductType" FromRole="ProductType" ToRole="Model" />
+          <NavigationProperty Name="ProductSubTypes" Relationship="Self.FK_ProductSubType_ProductType" FromRole="ProductType" ToRole="ProductSubType" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="Supplier_Id" />
+          </Key>
+          <Property Name="Supplier_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Suppliers_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Suppliers_JoinedDate" Type="DateTime" Precision="3" />
+          <Property Name="Suppliers_IsActive" Type="Boolean" />
+          <NavigationProperty Name="Products" Relationship="Self.FK_Product_Supplier" FromRole="Supplier" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_Model_ProductType">
+          <End Role="ProductType" Type="Self.ProductType" Multiplicity="0..1" />
+          <End Role="Model" Type="Self.Model" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductType">
+              <PropertyRef Name="ProductType_Id" />
+            </Principal>
+            <Dependent Role="Model">
+              <PropertyRef Name="Model_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Model">
+          <End Role="Model" Type="Self.Model" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Model">
+              <PropertyRef Name="Model_Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Product_ModelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Supplier">
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="Supplier_Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Product_Supplier" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductSubType_ProductType">
+          <End Role="ProductType" Type="Self.ProductType" Multiplicity="1" />
+          <End Role="ProductSubType" Type="Self.ProductSubType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductType">
+              <PropertyRef Name="ProductType_Id" />
+            </Principal>
+            <Dependent Role="ProductSubType">
+              <PropertyRef Name="ProductSubType_MainType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MainDatabaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Models" EntityType="Self.Model" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="ProductSubTypes" EntityType="Self.ProductSubType" />
+          <EntitySet Name="ProductTypes" EntityType="Self.ProductType" />
+          <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK_Model_ProductType" Association="Self.FK_Model_ProductType">
+            <End Role="ProductType" EntitySet="ProductTypes" />
+            <End Role="Model" EntitySet="Models" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Model" Association="Self.FK_Product_Model">
+            <End Role="Model" EntitySet="Models" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Supplier" Association="Self.FK_Product_Supplier">
+            <End Role="Supplier" EntitySet="Suppliers" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductSubType_ProductType" Association="Self.FK_ProductSubType_ProductType">
+            <End Role="ProductType" EntitySet="ProductTypes" />
+            <End Role="ProductSubType" EntitySet="ProductSubTypes" />
+          </AssociationSet>
+          <EntitySet Name="Notes" EntityType="MainDatabaseModel.Note" />
+          <AssociationSet Name="FK_Note_Product" Association="MainDatabaseModel.FK_Note_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Note" EntitySet="Notes" />
+          </AssociationSet>
+          <EntitySet Name="Locations" EntityType="MainDatabaseModel.Location" />
+          <EntitySet Name="Manufatures" EntityType="MainDatabaseModel.Manufature" />
+          <EntitySet Name="LocationChanges" EntityType="MainDatabaseModel.LocationChange" />
+          <AssociationSet Name="FK_LocationChange_Location" Association="MainDatabaseModel.FK_LocationChange_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="LocationChange" EntitySet="LocationChanges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Model_Manufature" Association="MainDatabaseModel.FK_Model_Manufature">
+            <End Role="Manufature" EntitySet="Manufatures" />
+            <End Role="Model" EntitySet="Models" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationChange_Product" Association="MainDatabaseModel.FK_LocationChange_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="LocationChange" EntitySet="LocationChanges" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Note">
+          <Key>
+            <PropertyRef Name="Note_Id" />
+          </Key>
+          <Property Name="Note_ProductId" Type="Int32" />
+          <Property Name="Note_Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Note_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Product" Relationship="MainDatabaseModel.FK_Note_Product" FromRole="Note" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK_Note_Product">
+          <End Type="MainDatabaseModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="MainDatabaseModel.Note" Role="Note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Product_Id" />
+            </Principal>
+            <Dependent Role="Note">
+              <PropertyRef Name="Note_ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="Location_Id" />
+          </Key>
+          <Property Name="Location_Id" Type="Int32" Nullable="false" />
+          <Property Name="Location_Code" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Location_Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="LocationChange" Relationship="MainDatabaseModel.FK_LocationChange_Location" FromRole="Location" ToRole="LocationChange" />
+        </EntityType>
+        <EntityType Name="Manufature">
+          <Key>
+            <PropertyRef Name="Manufacture_Id" />
+          </Key>
+          <Property Name="Manufacture_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Manufacture_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Models" Relationship="MainDatabaseModel.FK_Model_Manufature" FromRole="Manufature" ToRole="Model" />
+        </EntityType>
+        <EntityType Name="LocationChange">
+          <Key>
+            <PropertyRef Name="LocChng_Id" />
+          </Key>
+          <Property Name="LocChng_ProductId" Type="Int32" />
+          <Property Name="LocChng_LocationId" Type="Int32" />
+          <Property Name="LocChng_ChangedDate" Type="DateTime" Precision="3" />
+          <Property Name="LocChng_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Location" Relationship="MainDatabaseModel.FK_LocationChange_Location" FromRole="LocationChange" ToRole="Location" />
+          <NavigationProperty Name="Product" Relationship="MainDatabaseModel.FK_LocationChange_Product" FromRole="LocationChange" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK_LocationChange_Location">
+          <End Type="MainDatabaseModel.Location" Role="Location" Multiplicity="1" />
+          <End Type="MainDatabaseModel.LocationChange" Role="LocationChange" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Location_Id" />
+            </Principal>
+            <Dependent Role="LocationChange">
+              <PropertyRef Name="LocChng_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Model_Manufature">
+          <End Type="MainDatabaseModel.Manufature" Role="Manufature" Multiplicity="0..1" />
+          <End Type="MainDatabaseModel.Model" Role="Model" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufature">
+              <PropertyRef Name="Manufacture_Id" />
+            </Principal>
+            <Dependent Role="Model">
+              <PropertyRef Name="Model_Manufaturer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationChange_Product">
+          <End Type="MainDatabaseModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="MainDatabaseModel.LocationChange" Role="LocationChange" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Product_Id" />
+            </Principal>
+            <Dependent Role="LocationChange">
+              <PropertyRef Name="LocChng_ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MainDatabaseModelStoreContainer" CdmEntityContainer="MainDatabaseEntities">
+          <EntitySetMapping Name="Models">
+            <EntityTypeMapping TypeName="MainDatabaseModel.Model">
+              <MappingFragment StoreEntitySet="Model">
+                <ScalarProperty Name="Model_Manufaturer" ColumnName="Model_Manufaturer" />
+                <ScalarProperty Name="Model_Id" ColumnName="Model_Id" />
+                <ScalarProperty Name="Model_SKU" ColumnName="Model_SKU" />
+                <ScalarProperty Name="Model_Type" ColumnName="Model_Type" />
+                <ScalarProperty Name="Model_Name" ColumnName="Model_Name" />
+                <ScalarProperty Name="Model_SubType" ColumnName="Model_SubType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="MainDatabaseModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Product_Id" ColumnName="Product_Id" />
+                <ScalarProperty Name="ProductDate_Created" ColumnName="ProductDate_Created" />
+                <ScalarProperty Name="Product_Supplier" ColumnName="Product_Supplier" />
+                <ScalarProperty Name="Product_WarrantyPeriod" ColumnName="Product_WarrantyPeriod" />
+                <ScalarProperty Name="Product_ModelId" ColumnName="Product_ModelId" />
+                <ScalarProperty Name="Product_CurrentLoc" ColumnName="Product_CurrentLoc" />
+                <ScalarProperty Name="OS" ColumnName="OS" />
+                <ScalarProperty Name="OSType" ColumnName="OSType" />
+                <ScalarProperty Name="OfficeVersion" ColumnName="OfficeVersion" />
+                <ScalarProperty Name="BattaryState" ColumnName="BattaryState" />
+                <ScalarProperty Name="IsLicense" ColumnName="IsLicense" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductSubTypes">
+            <EntityTypeMapping TypeName="MainDatabaseModel.ProductSubType">
+              <MappingFragment StoreEntitySet="ProductSubType">
+                <ScalarProperty Name="ProductSubType_Id" ColumnName="ProductSubType_Id" />
+                <ScalarProperty Name="ProductSubType_Name" ColumnName="ProductSubType_Name" />
+                <ScalarProperty Name="ProductSubType_MainType" ColumnName="ProductSubType_MainType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductTypes">
+            <EntityTypeMapping TypeName="MainDatabaseModel.ProductType">
+              <MappingFragment StoreEntitySet="ProductType">
+                <ScalarProperty Name="ProductType_Id" ColumnName="ProductType_Id" />
+                <ScalarProperty Name="ProductType_Name" ColumnName="ProductType_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Suppliers">
+            <EntityTypeMapping TypeName="MainDatabaseModel.Supplier">
+              <MappingFragment StoreEntitySet="Supplier">
+                <ScalarProperty Name="Supplier_Id" ColumnName="Supplier_Id" />
+                <ScalarProperty Name="Suppliers_Name" ColumnName="Suppliers_Name" />
+                <ScalarProperty Name="Suppliers_JoinedDate" ColumnName="Suppliers_JoinedDate" />
+                <ScalarProperty Name="Suppliers_IsActive" ColumnName="Suppliers_IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="MainDatabaseModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notes">
+            <EntityTypeMapping TypeName="MainDatabaseModel.Note">
+              <MappingFragment StoreEntitySet="Note">
+                <ScalarProperty Name="Note_Id" ColumnName="Note_Id" />
+                <ScalarProperty Name="Note_Description" ColumnName="Note_Description" />
+                <ScalarProperty Name="Note_ProductId" ColumnName="Note_ProductId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="MainDatabaseModel.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="Location_Description" ColumnName="Location_Description" />
+                <ScalarProperty Name="Location_Code" ColumnName="Location_Code" />
+                <ScalarProperty Name="Location_Id" ColumnName="Location_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Manufatures">
+            <EntityTypeMapping TypeName="MainDatabaseModel.Manufature">
+              <MappingFragment StoreEntitySet="Manufature">
+                <ScalarProperty Name="Manufacture_Name" ColumnName="Manufacture_Name" />
+                <ScalarProperty Name="Manufacture_Id" ColumnName="Manufacture_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LocationChanges">
+            <EntityTypeMapping TypeName="MainDatabaseModel.LocationChange">
+              <MappingFragment StoreEntitySet="LocationChange">
+                <ScalarProperty Name="LocChng_Id" ColumnName="LocChng_Id" />
+                <ScalarProperty Name="LocChng_ChangedDate" ColumnName="LocChng_ChangedDate" />
+                <ScalarProperty Name="LocChng_LocationId" ColumnName="LocChng_LocationId" />
+                <ScalarProperty Name="LocChng_ProductId" ColumnName="LocChng_ProductId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
