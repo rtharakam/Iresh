@@ -39,7 +39,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IManufactureManager.cs" />
+    <Compile Include="Interfaces\IModelManagement.cs" />
     <Compile Include="Interfaces\IProductManagement.cs" />
+    <Compile Include="ManufactureManager.cs" />
+    <Compile Include="ModelManagement.cs" />
     <Compile Include="ProductManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

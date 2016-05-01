@@ -31,5 +31,8 @@ namespace OIvn.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Products { get; set; }
         public virtual Manufature Manufature { get; set; }
+        public virtual Model Model1 { get; set; }
+        public virtual Model Model2 { get; set; }
+        public virtual ProductSubType ProductSubType { get; set; }
     }
 }

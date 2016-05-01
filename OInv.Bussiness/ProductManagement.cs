@@ -17,6 +17,7 @@ namespace OInv.Bussiness
             this.productManagement = productManagement;
         }
 
+
         IEnumerable<ProductType> IProductManagement.getAllProductTypes()
         {
             return productManagement.getAllProductTypes();

@@ -138,6 +138,30 @@ warning 6002: The table/view 'MainDatabase.dbo.Note' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Model_Model">
+          <End Role="Model" Type="Self.Model" Multiplicity="1" />
+          <End Role="Model1" Type="Self.Model" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Model">
+              <PropertyRef Name="Model_Id" />
+            </Principal>
+            <Dependent Role="Model1">
+              <PropertyRef Name="Model_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Model_ProductSubType">
+          <End Role="ProductSubType" Type="Self.ProductSubType" Multiplicity="0..1" />
+          <End Role="Model" Type="Self.Model" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductSubType">
+              <PropertyRef Name="ProductSubType_Id" />
+            </Principal>
+            <Dependent Role="Model">
+              <PropertyRef Name="Model_SubType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Model_ProductType">
           <End Role="ProductType" Type="Self.ProductType" Multiplicity="0..1" />
           <End Role="Model" Type="Self.Model" Multiplicity="*" />
@@ -234,6 +258,14 @@ warning 6002: The table/view 'MainDatabase.dbo.Note' does not have a primary key
             <End Role="Manufature" EntitySet="Manufature" />
             <End Role="Model" EntitySet="Model" />
           </AssociationSet>
+          <AssociationSet Name="FK_Model_Model" Association="Self.FK_Model_Model">
+            <End Role="Model" EntitySet="Model" />
+            <End Role="Model1" EntitySet="Model" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Model_ProductSubType" Association="Self.FK_Model_ProductSubType">
+            <End Role="ProductSubType" EntitySet="ProductSubType" />
+            <End Role="Model" EntitySet="Model" />
+          </AssociationSet>
           <AssociationSet Name="FK_Model_ProductType" Association="Self.FK_Model_ProductType">
             <End Role="ProductType" EntitySet="ProductType" />
             <End Role="Model" EntitySet="Model" />
@@ -272,6 +304,9 @@ warning 6002: The table/view 'MainDatabase.dbo.Note' does not have a primary key
           <NavigationProperty Name="Products" Relationship="Self.FK_Product_Model" FromRole="Model" ToRole="Product" />
           <Property Name="Model_Manufaturer" Type="Int32" />
           <NavigationProperty Name="Manufature" Relationship="MainDatabaseModel.FK_Model_Manufature" FromRole="Model" ToRole="Manufature" />
+          <NavigationProperty Name="Model1" Relationship="MainDatabaseModel.FK_Model_Model" FromRole="Model" ToRole="Model1" />
+          <NavigationProperty Name="Model2" Relationship="MainDatabaseModel.FK_Model_Model" FromRole="Model1" ToRole="Model" />
+          <NavigationProperty Name="ProductSubType" Relationship="MainDatabaseModel.FK_Model_ProductSubType" FromRole="Model" ToRole="ProductSubType" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -301,6 +336,7 @@ warning 6002: The table/view 'MainDatabase.dbo.Note' does not have a primary key
           <Property Name="ProductSubType_Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="ProductSubType_MainType" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ProductType" Relationship="Self.FK_ProductSubType_ProductType" FromRole="ProductSubType" ToRole="ProductType" />
+          <NavigationProperty Name="Models" Relationship="MainDatabaseModel.FK_Model_ProductSubType" FromRole="ProductSubType" ToRole="Model" />
         </EntityType>
         <EntityType Name="ProductType">
           <Key>
@@ -422,6 +458,14 @@ warning 6002: The table/view 'MainDatabase.dbo.Note' does not have a primary key
             <End Role="Product" EntitySet="Products" />
             <End Role="LocationChange" EntitySet="LocationChanges" />
           </AssociationSet>
+          <AssociationSet Name="FK_Model_Model" Association="MainDatabaseModel.FK_Model_Model">
+            <End Role="Model" EntitySet="Models" />
+            <End Role="Model1" EntitySet="Models" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Model_ProductSubType" Association="MainDatabaseModel.FK_Model_ProductSubType">
+            <End Role="ProductSubType" EntitySet="ProductSubTypes" />
+            <End Role="Model" EntitySet="Models" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Note">
           <Key>
@@ -505,6 +549,30 @@ warning 6002: The table/view 'MainDatabase.dbo.Note' does not have a primary key
             </Principal>
             <Dependent Role="LocationChange">
               <PropertyRef Name="LocChng_ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Model_Model">
+          <End Type="MainDatabaseModel.Model" Role="Model" Multiplicity="1" />
+          <End Type="MainDatabaseModel.Model" Role="Model1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Model">
+              <PropertyRef Name="Model_Id" />
+            </Principal>
+            <Dependent Role="Model1">
+              <PropertyRef Name="Model_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Model_ProductSubType">
+          <End Type="MainDatabaseModel.ProductSubType" Role="ProductSubType" Multiplicity="0..1" />
+          <End Type="MainDatabaseModel.Model" Role="Model" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductSubType">
+              <PropertyRef Name="ProductSubType_Id" />
+            </Principal>
+            <Dependent Role="Model">
+              <PropertyRef Name="Model_SubType" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

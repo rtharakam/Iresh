@@ -63,6 +63,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ProductManagement\ManufaturerViewModel.cs" />
+    <Compile Include="ProductManagement\ModelViewModel.cs" />
     <Compile Include="UserIntarfaces\InsertData.xaml.cs" />
     <Compile Include="UserIntarfaces\ItemTypes.xaml.cs" />
     <Compile Include="UserIntarfaces\Location.xaml.cs" />

@@ -6,10 +6,10 @@ using System.Text;
 
 namespace OInv.Bussiness.Interfaces
 {
-    public  interface IProductManagement
+    public interface IModelManagement
     {
-        IEnumerable<ProductType> getAllProductTypes();
-        IEnumerable<ProductSubType> getSubTypesByProductUd(int productTypeId);
+        IEnumerable<Model> getAllModels();
+        bool createOrUpdateMModel(Model model);
         
     }
 }

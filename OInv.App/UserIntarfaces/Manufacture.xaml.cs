@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OInv.App.ProductManagement;
+using OIvn.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +22,9 @@ namespace OInv.App.UserIntarfaces
     {
         public Manufacture()
         {
+            this.DataContext = new ManufaturerViewModel(new OInv.Bussiness.ManufactureManager(new ProductManagementDataAccess()));
             InitializeComponent();
         }
+
     }
 }

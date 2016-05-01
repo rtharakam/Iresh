@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using OInv.App.UserIntarfaces;
 
 namespace OInv.App
 {
@@ -27,6 +28,18 @@ namespace OInv.App
             this.DataContext = new ProductTypeViewModel(new OInv.Bussiness.ProductManagement(new ProductManagementDataAccess()));
             InitializeComponent();
 
+        }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            Window manu = new Manufacture();
+            manu.Show();
+        }
+
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            Window model = new UserIntarfaces.Model();
+            model.Show();
         }
     }
 }

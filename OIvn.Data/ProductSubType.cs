@@ -14,10 +14,18 @@ namespace OIvn.Data
     
     public partial class ProductSubType
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ProductSubType()
+        {
+            this.Models = new HashSet<Model>();
+        }
+    
         public int ProductSubType_Id { get; set; }
         public string ProductSubType_Name { get; set; }
         public int ProductSubType_MainType { get; set; }
     
         public virtual ProductType ProductType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Model> Models { get; set; }
     }
 }

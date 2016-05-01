@@ -70,7 +70,7 @@ namespace OIvn.Data
                 {
                     if (model.ModelId == 0)
                     {
-                        db.Models.Add(new Model { Model_Id = model.ModelId, Model_Name = model.ModelName ,Model_SKU=model.ModelName, Model_Type=model.ModelType,Model_SubType=model.ModelSubType});
+                       // db.Models.Add(new Model { Model_Id = model.ModelId, Model_Name = model.ModelName ,Model_SKU=model.ModelName, Model_Type=model.ModelType,Model_SubType=model.ModelSubType});
                         db.SaveChanges();
                     }
                     else
@@ -78,8 +78,8 @@ namespace OIvn.Data
                         Model manu = db.Models.Where(x => x.Model_Id == model.ModelId).FirstOrDefault();
                         manu.Model_Name = model.ModelName;
                         manu.Model_SKU = model.ModelSKU;
-                        manu.Model_Type = model.ModelType;
-                        manu.Model_SubType = model.ModelSubType;
+                        manu.Model_Type = model.ModelSubTypeId;
+                        manu.Model_SubType = model.ModelSubTypeId;
                         db.SaveChanges();
                     }
                     return true;
@@ -130,7 +130,17 @@ namespace OIvn.Data
                 var result = new List<OInv.Common.Entities.Model>();
                 foreach (Model model in models)
                 {
-                    result.Add(new OInv.Common.Entities.Model() { ModelId = model.Model_Id, ModelName = model.Model_Name ,ModelManufaturer=model.Model_Manufaturer,ModelType=model.Model_Type,ModelSKU=model.Model_SKU,ModelSubType=model.Model_SubType});
+                    result.Add(new OInv.Common.Entities.Model()
+                    {     ModelId = model.Model_Id,
+                          ModelName = model.Model_Name ,
+                          ModelManufaturer = (model.Manufature == null) ? null : new OInv.Common.Entities.Manufature {ManufactureId= model.Manufature.Manufacture_Id,ManufactureName=model.Manufature.Manufacture_Name },
+                          ModelSKU =model.Model_SKU,
+                          ModelSubType = (model.ProductSubType==null)? null : new OInv.Common.Entities.ProductSubType { ProductSubTypeId= model.ProductSubType.ProductSubType_Id,ProductSubTypeName= model.ProductSubType.ProductSubType_Name},
+                          ModelType= (model.ProductType == null) ? null : new OInv.Common.Entities.ProductType { ProductTypeId=model.ProductType.ProductType_Id,ProductTypeName=model.ProductType.ProductType_Name},
+                          ModelManufaturerId=model.Model_Manufaturer,
+                          ModelSubTypeId=model.Model_SubType,
+                          ModelTypeId=model.Model_Type,
+                    });
                 }
                 return result;
             }

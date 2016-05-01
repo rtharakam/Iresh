@@ -17,10 +17,14 @@ namespace OInv.Common.Entities
     
         public int ModelId { get; set; }
         public string ModelSKU { get; set; }
-        public Nullable<int> ModelType { get; set; }
+        public Nullable<int> ModelTypeId { get; set; }
+        public ProductType ModelType { get; set; }
         public string ModelName { get; set; }
-        public Nullable<int> ModelSubType { get; set; }
-        public Nullable<int> ModelManufaturer { get; set; }
-    
+        public Nullable<int> ModelSubTypeId { get; set; }
+        public ProductSubType ModelSubType { get; set; }
+        public Nullable<int> ModelManufaturerId { get; set; }
+        public Manufature ModelManufaturer { get; set; }
+
+
     }
 }

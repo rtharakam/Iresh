@@ -7,7 +7,7 @@ using OInv.Common.Entities;
 
 namespace OIvn.Data
 {
-    public class SQLQuery : IProductManagementDataAccess
+    public class SQLQuery 
     {
         public OInv.Common.Entities.Location addNewLocation(OInv.Common.Entities.Location location)
         {

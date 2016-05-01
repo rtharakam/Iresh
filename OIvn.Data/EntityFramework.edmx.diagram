@@ -7,7 +7,7 @@
       <Diagram DiagramId="54cfea7ec25b4f0889bf147412ae68bb" Name="Diagram1">
         <EntityTypeShape EntityType="MainDatabaseModel.Model" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MainDatabaseModel.Product" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="MainDatabaseModel.ProductSubType" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MainDatabaseModel.ProductSubType" Width="1.5" PointX="3" PointY="5.625" IsExpanded="true" />
         <EntityTypeShape EntityType="MainDatabaseModel.ProductType" Width="1.5" PointX="0.75" PointY="3.25" IsExpanded="true" />
         <EntityTypeShape EntityType="MainDatabaseModel.Supplier" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
         <EntityTypeShape EntityType="MainDatabaseModel.sysdiagram" Width="1.5" PointX="5.75" PointY="5.75" IsExpanded="true" />
@@ -23,6 +23,8 @@
         <AssociationConnector Association="MainDatabaseModel.FK_LocationChange_Location" />
         <AssociationConnector Association="MainDatabaseModel.FK_Model_Manufature" />
         <AssociationConnector Association="MainDatabaseModel.FK_LocationChange_Product" />
+        <AssociationConnector Association="MainDatabaseModel.FK_Model_Model" />
+        <AssociationConnector Association="MainDatabaseModel.FK_Model_ProductSubType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
