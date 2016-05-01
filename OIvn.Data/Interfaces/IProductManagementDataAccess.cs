@@ -18,10 +18,10 @@ namespace OIvn.Data.Interfaces
 
 
 
-        OInv.Common.Entities.Manufature addNewManufaturer(OInv.Common.Entities.Manufature manufacture);
+        bool createOrUpdateManufaturer(OInv.Common.Entities.Manufature manufacture);
 
-        OInv.Common.Entities.Model addNewMmodel(OInv.Common.Entities.Model model);
+        bool createOrUpdateMmodel(OInv.Common.Entities.Model model);
 
-        OInv.Common.Entities.Location addNewLocation(OInv.Common.Entities.Location location);
+        bool createOrUpdateLocation(OInv.Common.Entities.Location location);
     }
 }
